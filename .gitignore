@@ -11,3 +11,32 @@
 *.lai
 *.la
 *.a
+
+# latex files
+*.aux 
+*.bit 
+*.blg 
+*.bbl 
+*.lof 
+*.log 
+*.lot 
+*.glo 
+*.glx 
+*.gxg 
+*.gxs 
+*.idx 
+*.ilg 
+*.ind 
+*.out 
+*.url 
+*.svn 
+*.toc
+*.gnuplot
+*.backup
+*.table
+*.dvi
+
+# Editor files
+*~
+*.swp
+*.swo
