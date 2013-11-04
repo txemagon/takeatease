@@ -1,0 +1,25 @@
+Index: clam/src/Standard/Connection.cxx
+===================================================================
+--- clam.orig/src/Standard/Connection.cxx	2011-05-16 12:35:57.000000000 +0900
++++ clam/src/Standard/Connection.cxx	2011-05-16 12:36:13.000000000 +0900
+@@ -21,6 +21,7 @@
+ 
+ #include "Connection.hxx"
+ #include "Signal.hxx"
++#include <stddef.h>
+ 
+ namespace SigSlot
+ {
+Index: clam/src/Tools/MIDIIO/File/MIDISongPlayer.hxx
+===================================================================
+--- clam.orig/src/Tools/MIDIIO/File/MIDISongPlayer.hxx	2011-05-16 12:36:39.000000000 +0900
++++ clam/src/Tools/MIDIIO/File/MIDISongPlayer.hxx	2011-05-16 12:36:48.000000000 +0900
+@@ -21,6 +21,8 @@
+  * Maarten de Boer <mdeboer@iua.upf.es>
+  *
+  */
++#include <stddef.h>
++
+ namespace MIDI
+ {
+ 

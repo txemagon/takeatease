@@ -1,0 +1,65 @@
+Source: clam
+Priority: extra
+Maintainer: Debian Multimedia Maintainers <pkg-multimedia-maintainers@lists.alioth.debian.org>
+Uploaders: TANIGUCHI Takaki <takaki@debian.org>
+Build-Depends: debhelper (>= 7.0.50~),
+	scons,
+	libasound2-dev,
+	libjack-dev,
+	libfftw3-dev,
+	libxerces-c2-dev,
+	ladspa-sdk,
+	libogg-dev,
+	libsndfile1-dev,
+	libid3-3.8.3-dev,
+	libmad0-dev,
+	pkg-config,
+	portaudio19-dev,
+Standards-Version: 3.9.2
+Section: libs
+Homepage: http://clam-project.org/
+Vcs-Git: git://git.debian.org/git/pkg-multimedia/clam.git
+Vcs-Browser: http://git.debian.org/?p=pkg-multimedia/clam.git
+
+Package: libclam-dev
+Section: libdevel
+Architecture: any
+Depends: libclam1.4 (= ${binary:Version}), ${misc:Depends},
+	pkg-config,
+	libsndfile1-dev,
+	libjack-dev,
+	portaudio19-dev,
+	python
+Suggests: libclam-doc (= ${binary:Version})
+Description: C++ Library for Audio and Music(development files)
+ CLAM is a framework to develop audio and music applications in C++.
+ It provides tools to perform advanced analysis, transformations and synthesis,
+ visualization for audio and music related objects, and other tools that are
+ useful to abstract target platform for most tasks in an audio applications
+ such as audio devices, file formats, threading...
+ .
+ This is a development library package.
+
+Package: libclam1.4
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: C++ Library for Audio and Music
+ CLAM is a framework to develop audio and music applications in C++.
+ It provides tools to perform advanced analysis, transformations and synthesis,
+ visualization for audio and music related objects, and other tools that are
+ useful to abstract target platform for most tasks in an audio applications
+ such as audio devices, file formats, threading...
+
+Package: libclam-doc
+Section: doc
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}
+Description: C++ Library for Audio and Music (documentation)
+ CLAM is a framework to develop audio and music applications in C++.
+ It provides tools to perform advanced analysis, transformations and synthesis,
+ visualization for audio and music related objects, and other tools that are
+ useful to abstract target platform for most tasks in an audio applications
+ such as audio devices, file formats, threading...
+ .
+ This is a documentation package.
