@@ -23,12 +23,12 @@
 #ifndef _FreqFilter_
 #define _FreqFilter_
 
-#include "InPort.hxx"
-#include "OutPort.hxx"
-#include "InControl.hxx"
-#include "Frame.hxx"
-#include "FrameTransformation.hxx"
-#include "FrameTransformationConfig.hxx"
+#include "CLAM/InPort.hxx"
+#include "CLAM/OutPort.hxx"
+#include "CLAM/InControl.hxx"
+#include "CLAM/Frame.hxx"
+#include "CLAM/FrameTransformation.hxx"
+#include "CLAM/FrameTransformationConfig.hxx"
 
 namespace CLAM{
 

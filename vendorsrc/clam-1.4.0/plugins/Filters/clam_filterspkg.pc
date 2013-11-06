@@ -1,0 +1,13 @@
+name = clam_filterspkg
+prefix = /usr/
+libdir = ${prefix}/lib
+includedir = ${prefix}/include
+
+Name: ${name}
+Description: C++ Framework for analysis, synthesis and transformation of music audio signals
+Url: http://clam-project.org
+Version: 1.4.0
+Requires: clam_core
+Conflicts: 
+Libs: -L${libdir} -l${name} 
+Cflags: -I${includedir} 

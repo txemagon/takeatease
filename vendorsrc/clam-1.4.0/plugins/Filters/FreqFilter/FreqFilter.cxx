@@ -20,7 +20,7 @@
  */
 
 #include "FreqFilter.hxx"
-#include "ProcessingFactory.hxx"
+#include "CLAM/ProcessingFactory.hxx"
 
 namespace CLAM
 {
@@ -29,8 +29,8 @@ namespace Hidden
 {
 	static const char * metadata[] = {
 		"key", "FreqFilter",
-	//	"category", "Spectral Transformations",
-	//	"description", "FreqShift",
+		"category", "[plugin] Filters",
+		"description", "Filter Fourier Frequencies",
 		0
 	};
 	static FactoryRegistrator<ProcessingFactory, FreqFilter> reg = metadata;
@@ -57,25 +57,12 @@ bool FreqFilter::Do(const Spectrum& in, Spectrum& out)
 	
 	//actually this is one over the spectral resolution, but it will be better for what I need afterwords
 	TData spectralResolution = spectrumSize/in.GetSpectralRange();
-	int amount = Round(mShiftAmount.GetLastValue() * spectralResolution);
-	
+	// int amount = Round(mShiftAmount.GetLastValue() * spectralResolution);
+    double amount = mShiftAmount.GetLastValue();
 	for(int i = 0; i<spectrumSize; i++)
 	{
-		if(i<amount)
-		{
-			mOMagArray[i] = 0;
-			mOPhaseArray[i] = 0;
-		}
-		else if(i>spectrumSize+amount)
-		{
-			mOMagArray[i] = 0;
-			mOPhaseArray[i] = 0;
-		}
-		else
-		{
-			mOMagArray[i] = iMagArray[i-amount];
-			mOPhaseArray[i] = iPhaseArray[i-amount];
-		}
+			mOMagArray[i] = (1 + amount - (spectrumSize - i ) / spectrumSize * 2 * amount ) * iMagArray[i];
+			mOPhaseArray[i] = iPhaseArray[i];
 	}
 	out.SetMagBuffer(mOMagArray);
 	out.SetPhaseBuffer(mOPhaseArray);
@@ -84,4 +71,6 @@ bool FreqFilter::Do(const Spectrum& in, Spectrum& out)
 
 
 }
+
+
 

@@ -1,0 +1,4 @@
+scons clam_prefix="/usr/"
+sudo scons install
+CLAM_PLUGIN_PATH=/usr/lib/ NetworkEditor&
+
