@@ -1,0 +1,28 @@
+clam-networkeditor (1.4.0-3ubuntu1) precise; urgency=low
+
+  * d/p/include_glu-h.patch: Add missing include to build with qt 4.8
+    (LP: #791317) (Closes: #660252)
+
+ -- Andreas Moog <amoog@ubuntu.com>  Fri, 17 Feb 2012 19:54:39 +0100
+
+clam-networkeditor (1.4.0-3) unstable; urgency=low
+
+  * debian/control: remove dev packages which are depended by libclam-dev.
+    (Closes: #626919)
+  * Bump Standards-Version to 3.9.2 (with no changes).
+
+ -- TANIGUCHI Takaki <takaki@debian.org>  Mon, 16 May 2011 20:26:06 +0900
+
+clam-networkeditor (1.4.0-2) unstable; urgency=low
+
+  * debian/control: add scons to Build-Depends. (Closes: #620286) 
+    And many packages.
+  * debian/patches/FTBFS_with_gcc4.5: Added. 
+
+ -- TANIGUCHI Takaki <takaki@debian.org>  Tue, 05 Apr 2011 18:09:00 +0900
+
+clam-networkeditor (1.4.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #517882)
+
+ -- TANIGUCHI Takaki <takaki@debian.org>  Fri, 28 Jan 2011 16:07:12 +0900

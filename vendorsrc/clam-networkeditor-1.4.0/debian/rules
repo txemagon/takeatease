@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ 
+
+PREFIX = $(CURDIR)/debian/tmp/usr
+
+override_dh_auto_clean:
+	mkdir -p $(PREFIX)
+	scons -c prefix=$(PREFIX) clam_prefix=/usr
+
+override_dh_auto_build:
+	mkdir -p $(PREFIX)
+	scons prefix=$(PREFIX) clam_prefix=/usr qt_plugins_install_path=/lib/qt4/plugins/designer release=1 verbose=1 double=0 
+
+override_dh_auto_install:
+	mkdir -p $(PREFIX)
+	scons install prefix=$(PREFIX) clam_prefix=/usr ns_install_path=/lib/qt4/plugins/designer release=1 verbose=1 double=0
+
+

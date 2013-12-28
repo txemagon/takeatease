@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<network clamVersion="1.4.0" id="Unnamed">
+
+  <description>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'Sans'; font-size:12pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</description>
+
+  <processing id="AudioAmplifier" position="215,13" size="176,59" type="AudioAmplifier">
+    <MaxGain>1</MaxGain>
+    <InitGain>1</InitGain>
+    <PortsNumber>1</PortsNumber>
+  </processing>
+
+  <processing id="AudioMixer" position="-389,604" size="148,62" type="AudioMixer">
+    <NumberOfInPorts>2</NumberOfInPorts>
+    <DefaultGains size="2">1 1</DefaultGains>
+  </processing>
+
+  <processing id="AudioSource" position="-1063,84" size="159,108" type="AudioSource">
+    <NSources>1</NSources>
+  </processing>
+
+  <processing id="CepstralTransform" position="267,465" size="205,59" type="CepstralTransform">
+    <NumMelCoefficients>20</NumMelCoefficients>
+    <NumCepstrumCoefficients>20</NumCepstrumCoefficients>
+    <UseBase10>0</UseBase10>
+  </processing>
+
+  <processing id="CepstralTransform_1" position="-724,484" size="223,59" type="CepstralTransform">
+    <NumMelCoefficients>20</NumMelCoefficients>
+    <NumCepstrumCoefficients>20</NumCepstrumCoefficients>
+    <UseBase10>0</UseBase10>
+  </processing>
+
+  <processing id="CepstralTransform_2" position="-574,1320" size="223,59" type="CepstralTransform">
+    <NumMelCoefficients>20</NumMelCoefficients>
+    <NumCepstrumCoefficients>20</NumCepstrumCoefficients>
+    <UseBase10>0</UseBase10>
+  </processing>
+
+  <processing id="Current Time Position" position="-1056,1051" size="230,86" type="ControlPrinter">
+    <Identifier>ControlPrinter</Identifier>
+    <NumberOfInputs>1</NumberOfInputs>
+    <GuiOnly>1</GuiOnly>
+  </processing>
+
+  <processing id="FFT" position="-65,350" size="86,59" type="FFT">
+    <AudioSize>1024</AudioSize>
+  </processing>
+
+  <processing id="FFT_1" position="-1033,484" size="104,59" type="FFT">
+    <AudioSize>1024</AudioSize>
+  </processing>
+
+  <processing id="FFT_2" position="-901,1319" size="104,59" type="FFT">
+    <AudioSize>1024</AudioSize>
+  </processing>
+
+  <processing id="FileLPCInput" position="-867,1145" size="207,108" type="AudioBufferSource">
+    <NSources>1</NSources>
+  </processing>
+
+  <processing id="FileOutputToLPC" position="-1015,1147" size="187,111" type="AudioSink">
+    <NSinks>1</NSinks>
+  </processing>
+
+  <processing id="Gain" position="244,-79" size="200,80" type="OutControlSender">
+    <Min>0</Min>
+    <Default>1</Default>
+    <Max>1</Max>
+    <Step>0.01</Step>
+    <ControlRepresentation>Horizontal Slider</ControlRepresentation>
+    <Mapping>Linear</Mapping>
+  </processing>
+
+  <processing id="Gain 0" position="-405,438" size="200,80" type="OutControlSender">
+    <Min>0</Min>
+    <Default>0.5</Default>
+    <Max>1</Max>
+    <Step>0.01</Step>
+    <ControlRepresentation>Horizontal Slider</ControlRepresentation>
+    <Mapping>Linear</Mapping>
+  </processing>
+
+  <processing id="Gain 1" position="-372,505" size="200,80" type="OutControlSender">
+    <Min>0</Min>
+    <Default>0.5</Default>
+    <Max>1</Max>
+    <Step>0.01</Step>
+    <ControlRepresentation>Horizontal Slider</ControlRepresentation>
+    <Mapping>Linear</Mapping>
+  </processing>
+
+  <processing id="KeySpace" position="657,712" size="459,251" type="KeySpace"/>
+
+  <processing id="LPC_AutoCorrelation" position="-623,239" size="222,62" type="LPC_AutoCorrelation">
+    <Order>11</Order>
+  </processing>
+
+  <processing id="LPC_AutoCorrelation_1" position="-638,1145" size="240,62" type="LPC_AutoCorrelation">
+    <Order>11</Order>
+  </processing>
+
+  <processing id="LPModelView" position="-607,290" size="163,59" type="LPModelView"/>
+
+  <processing id="LPModelView_1" position="-638,1194" size="181,59" type="LPModelView"/>
+
+  <processing id="MelCepstrumView" position="487,474" size="263,113" type="MelCepstrumView"/>
+
+  <processing id="MelCepstrumView_1" position="-710,536" size="221,59" type="MelCepstrumView"/>
+
+  <processing id="MelCepstrumView_2" position="-561,1380" size="221,59" type="MelCepstrumView"/>
+
+  <processing id="MelFilterBank" position="85,469" size="166,59" type="MelFilterBank">
+    <SpectrumSize>513</SpectrumSize>
+    <SpectralRange>22050</SpectralRange>
+    <LowCutoff>0</LowCutoff>
+    <HighCutoff>11025</HighCutoff>
+    <NumBands>20</NumBands>
+    <UsePower>0</UsePower>
+  </processing>
+
+  <processing id="MelFilterBank_1" position="-921,486" size="184,59" type="MelFilterBank">
+    <SpectrumSize>513</SpectrumSize>
+    <SpectralRange>22050</SpectralRange>
+    <LowCutoff>0</LowCutoff>
+    <HighCutoff>11025</HighCutoff>
+    <NumBands>20</NumBands>
+    <UsePower>0</UsePower>
+  </processing>
+
+  <processing id="MelFilterBank_2" position="-782,1321" size="184,59" type="MelFilterBank">
+    <SpectrumSize>513</SpectrumSize>
+    <SpectralRange>22050</SpectralRange>
+    <LowCutoff>0</LowCutoff>
+    <HighCutoff>11025</HighCutoff>
+    <NumBands>20</NumBands>
+    <UsePower>0</UsePower>
+  </processing>
+
+  <processing id="MelSpectrumView" position="487,364" size="263,128" type="MelSpectrumView"/>
+
+  <processing id="MelSpectrumView_1" position="-931,539" size="220,59" type="MelSpectrumView"/>
+
+  <processing id="MelSpectrumView_2" position="-787,1381" size="220,59" type="MelSpectrumView"/>
+
+  <processing id="MicrophoneLPCInput" position="-865,236" size="223,108" type="AudioBufferSource">
+    <NSources>1</NSources>
+  </processing>
+
+  <processing id="MicrophoneOutputToLPC" position="-1083,226" size="253,111" type="AudioSink">
+    <NSinks>1</NSinks>
+  </processing>
+
+  <processing id="MonoAudioFileReader" position="-1031,869" size="233,95" type="MonoAudioFileReader">
+    <SourceFile>/media/4BEC-07E0/videos/espiritualidad/acim/C26_04_El_lugar_que_el_pecado_dejo_vacante.mp3</SourceFile>
+    <SelectedChannel>0</SelectedChannel>
+    <Loop>0</Loop>
+  </processing>
+
+  <processing id="Oscilloscope" position="434,-42" size="237,130" type="Oscilloscope"/>
+
+  <processing id="Oscilloscope_1" position="-771,89" size="176,59" type="Oscilloscope"/>
+
+  <processing id="Oscilloscope_2" position="-756,875" size="176,59" type="Oscilloscope"/>
+
+  <processing id="PeakView" position="482,1405" size="134,59" type="PeakView"/>
+
+  <processing id="PolarChromaPeaks" position="280,735" size="308,223" type="PolarChromaPeaks"/>
+
+  <processing id="Progress" position="-1000,985" size="156,86" type="ControlPrinter">
+    <Identifier>ControlPrinter</Identifier>
+    <NumberOfInputs>1</NumberOfInputs>
+    <GuiOnly>1</GuiOnly>
+  </processing>
+
+  <processing id="SMSAnalysisCore" position="58,1360" size="195,110" type="SMSAnalysisCore">
+    <SinSpectralAnalysis>
+      <WindowGenerator>
+        <Type>Hamming</Type>
+        <Size>2049</Size>
+        <MaxSize>0</MaxSize>
+        <UseTable>1</UseTable>
+        <Normalize>NormalizationForAnalysis</Normalize>
+        <Invert>0</Invert>
+      </WindowGenerator>
+      <CircularShift>
+        <Amount>-1024</Amount>
+      </CircularShift>
+      <FFT>
+        <AudioSize>2048</AudioSize>
+      </FFT>
+      <prHopSize>512</prHopSize>
+      <prZeroPadding>0</prZeroPadding>
+      <prSamplingRate>44100</prSamplingRate>
+      <prFFTSize>2048</prFFTSize>
+      <prWindowSize>2049</prWindowSize>
+      <prWindowType>Hamming</prWindowType>
+    </SinSpectralAnalysis>
+    <ResSpectralAnalysis>
+      <WindowGenerator>
+        <Type>BlackmanHarris92</Type>
+        <Size>1025</Size>
+        <MaxSize>0</MaxSize>
+        <UseTable>1</UseTable>
+        <Normalize>NormalizationForAnalysis</Normalize>
+        <Invert>0</Invert>
+      </WindowGenerator>
+      <CircularShift>
+        <Amount>-512</Amount>
+      </CircularShift>
+      <FFT>
+        <AudioSize>1024</AudioSize>
+      </FFT>
+      <prHopSize>512</prHopSize>
+      <prZeroPadding>0</prZeroPadding>
+      <prSamplingRate>44100</prSamplingRate>
+      <prFFTSize>1024</prFFTSize>
+      <prWindowSize>1025</prWindowSize>
+      <prWindowType>BlackmanHarris92</prWindowType>
+    </ResSpectralAnalysis>
+    <PeakDetect>
+      <MaxPeaks>500</MaxPeaks>
+      <MagThreshold>-60</MagThreshold>
+      <MaxFreq>8000</MaxFreq>
+    </PeakDetect>
+    <FundFreqDetect>
+      <ReferenceFundFreq>1000</ReferenceFundFreq>
+      <LowestFundFreq>35</LowestFundFreq>
+      <HighestFundFreq>1500</HighestFundFreq>
+      <MaxCandMagDiff>30</MaxCandMagDiff>
+      <MaxFundFreqError>10</MaxFundFreqError>
+      <PMp>0.5</PMp>
+      <PMq>1.4</PMq>
+      <PMr>0.5</PMr>
+      <MPp>0.5</MPp>
+      <MPq>1.4</MPq>
+      <MPr>0.5</MPr>
+      <PMnPeaks>10</PMnPeaks>
+      <MPnPeaks>10</MPnPeaks>
+      <PMCont>1</PMCont>
+      <MPCont>1</MPCont>
+      <NInt>5</NInt>
+      <NMaxCandidates>40</NMaxCandidates>
+    </FundFreqDetect>
+    <SinTracking>
+      <Threshold>40</Threshold>
+      <nMaxSines>200</nMaxSines>
+      <IsHarmonic>0</IsHarmonic>
+    </SinTracking>
+    <prSamplingRate>44100</prSamplingRate>
+    <prFFTSize>0</prFFTSize>
+    <SynthSineSpectrum>
+      <SpectrumSize>513</SpectrumSize>
+      <SamplingRate>44100</SamplingRate>
+      <ZeroPadding>0</ZeroPadding>
+    </SynthSineSpectrum>
+  </processing>
+
+  <processing id="Spectrogram" position="739,936" size="428,247" type="Spectrogram"/>
+
+  <processing id="SpectrumView" position="115,316" size="266,143" type="SpectrumView"/>
+
+  <processing id="TomatisOutputLeft" position="814,-53" size="205,111" type="AudioSink">
+    <NSinks>1</NSinks>
+  </processing>
+
+  <processing id="TomatisOutputRight" position="816,45" size="217,111" type="AudioSink">
+    <NSinks>1</NSinks>
+  </processing>
+
+  <processing id="TonalAnalysis" position="53,804" size="165,110" type="TonalAnalysis">
+    <FilterInertia>0.7</FilterInertia>
+    <TunningEnabled>1</TunningEnabled>
+    <PeakWindowingEnabled>1</PeakWindowingEnabled>
+    <HopRatio>8</HopRatio>
+    <SegmentationMethod>1</SegmentationMethod>
+  </processing>
+
+  <processing id="Tunner" position="243,937" size="478,270" type="Tunner"/>
+
+  <processing id="VectorView" position="1116,719" size="187,118" type="VectorView"/>
+
+  <processing id="Vumeter" position="676,-55" size="126,221" type="Vumeter"/>
+
+  <port_connection>
+    <out>AudioAmplifier.Audio Output</out>
+    <in>Vumeter.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioAmplifier.Audio Output</out>
+    <in>TomatisOutputLeft.1</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioAmplifier.Audio Output</out>
+    <in>TomatisOutputRight.1</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioMixer.Output Audio</out>
+    <in>FFT.Audio Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioMixer.Output Audio</out>
+    <in>TonalAnalysis.Audio Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioMixer.Output Audio</out>
+    <in>Oscilloscope.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioMixer.Output Audio</out>
+    <in>AudioAmplifier.Input Audio</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioMixer.Output Audio</out>
+    <in>SMSAnalysisCore.Input Audio</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioSource.1</out>
+    <in>AudioMixer.Input 0</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioSource.1</out>
+    <in>Oscilloscope_1.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioSource.1</out>
+    <in>MicrophoneOutputToLPC.1</in>
+  </port_connection>
+
+  <port_connection>
+    <out>AudioSource.1</out>
+    <in>FFT_1.Audio Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>CepstralTransform.Mel Cepstrum</out>
+    <in>MelCepstrumView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>CepstralTransform_1.Mel Cepstrum</out>
+    <in>MelCepstrumView_1.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>CepstralTransform_2.Mel Cepstrum</out>
+    <in>MelCepstrumView_2.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>FFT.Spectrum Output</out>
+    <in>SpectrumView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>FFT.Spectrum Output</out>
+    <in>MelFilterBank.Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>FFT_1.Spectrum Output</out>
+    <in>MelFilterBank_1.Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>FFT_2.Spectrum Output</out>
+    <in>MelFilterBank_2.Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>FileLPCInput.1</out>
+    <in>LPC_AutoCorrelation_1.AudioIn</in>
+  </port_connection>
+
+  <port_connection>
+    <out>LPC_AutoCorrelation.LPModelOut</out>
+    <in>LPModelView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>LPC_AutoCorrelation_1.LPModelOut</out>
+    <in>LPModelView_1.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank.Mel Spectrum</out>
+    <in>CepstralTransform.Mel Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank.Mel Spectrum</out>
+    <in>MelSpectrumView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank_1.Mel Spectrum</out>
+    <in>CepstralTransform_1.Mel Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank_1.Mel Spectrum</out>
+    <in>MelSpectrumView_1.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank_2.Mel Spectrum</out>
+    <in>CepstralTransform_2.Mel Spectrum</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MelFilterBank_2.Mel Spectrum</out>
+    <in>MelSpectrumView_2.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MicrophoneLPCInput.1</out>
+    <in>LPC_AutoCorrelation.AudioIn</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MonoAudioFileReader.Samples Read</out>
+    <in>AudioMixer.Input 1</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MonoAudioFileReader.Samples Read</out>
+    <in>Oscilloscope_2.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>MonoAudioFileReader.Samples Read</out>
+    <in>FFT_2.Audio Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>SMSAnalysisCore.Sinusoidal Peaks</out>
+    <in>PeakView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>TonalAnalysis.Pitch Profile</out>
+    <in>VectorView.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>TonalAnalysis.Pitch Profile</out>
+    <in>Spectrogram.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>TonalAnalysis.Chord Correlation</out>
+    <in>KeySpace.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>TonalAnalysis.Chroma Peaks</out>
+    <in>PolarChromaPeaks.Input</in>
+  </port_connection>
+
+  <port_connection>
+    <out>TonalAnalysis.Tunning</out>
+    <in>Tunner.Input</in>
+  </port_connection>
+
+  <control_connection>
+    <out>Gain.out</out>
+    <in>AudioAmplifier.Gain</in>
+  </control_connection>
+
+  <control_connection>
+    <out>Gain 0.out</out>
+    <in>AudioMixer.Gain 0</in>
+  </control_connection>
+
+  <control_connection>
+    <out>Gain 1.out</out>
+    <in>AudioMixer.Gain 1</in>
+  </control_connection>
+
+  <control_connection>
+    <out>MonoAudioFileReader.Current Time Position</out>
+    <in>Current Time Position.In Control</in>
+  </control_connection>
+
+  <control_connection>
+    <out>MonoAudioFileReader.Progress</out>
+    <in>Progress.In Control</in>
+  </control_connection>
+
+</network>

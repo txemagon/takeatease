@@ -1,0 +1,15 @@
+Description: Add missing include to fix FTBFS with new qt4
+Author: Andreas Moog <amoog@ubuntu.com>
+Bug-Ubuntu: https://launchpad.net/bugs/791317
+
+--- clam-networkeditor-1.4.0.orig/src/widgets/QFirstPerson.hxx
++++ clam-networkeditor-1.4.0/src/widgets/QFirstPerson.hxx
+@@ -6,6 +6,8 @@
+ #include <QtGui/QKeyEvent>
+ #include <iostream>
+ #include <cmath>
++#include <GL/glu.h>
++
+ static float * vColor(const QColor & color)
+ {
+ 	static float vcolor[4];

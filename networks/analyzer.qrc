@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="48">
+    <file>resources/system-shutdown-3.png</file>
+    <file>resources/player-volume-2.png</file>
+    <file>resources/media-eject-7.png</file>
+    <file>resources/media-playback-pause-8.png</file>
+    <file>resources/media-playback-start-8.png</file>
+    <file>resources/media-playback-stop-8.png</file>
+  </qresource>
+</RCC>
