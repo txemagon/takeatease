@@ -12,6 +12,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        controllinewidget.cpp
+        controllinewidget.cpp \
+    graphicrenderer.cpp \
+    visualizationdata.cpp \
+    plotdata.cpp
 
-HEADERS  += controllinewidget.h
+HEADERS  += plotdata.h \
+    visualizationdata.h \
+    graphicrenderer.h \
+    controllinewidget.h
+
+
