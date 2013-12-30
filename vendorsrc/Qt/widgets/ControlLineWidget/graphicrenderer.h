@@ -18,7 +18,7 @@ class GraphicRenderer
 public:
     GraphicRenderer();
     GraphicRenderer(QWidget *parent,
-                    PlotData plot_points,
+                    PlotData &plot_points,
                     VisualizationData visual_data,
                     qreal knob_radius,
                     bool logarithmic_axis);
@@ -27,12 +27,11 @@ public:
     void setup_canvas(QPainter &painter);
     void paint(QPainter &painter);
 
-    QPoint from_app_to_canvas(QPoint canvas);
-
     bool hovers(const QPoint &mouse_abs_pos);
     void decide_dragging(const QPoint &mouse_pos);
-    void update_dragging(const QPoint &mouse_pos);
+    void update_dragging(const QPoint &mouse_now);
     void stop_dragging();
+    VisualizationData get_visualization_data();
 
 
 protected:
@@ -54,7 +53,6 @@ private:
     PlotData plot_points;
     VisualizationData visual_data;
 
-    QVector<QPointF> control_points;
     bool logarithmic;
     qreal knob_radius;
 

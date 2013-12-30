@@ -8,12 +8,17 @@ class VisualizationData
 {
 public:
     VisualizationData();
-    VisualizationData(QRectF rect, QPointF margin);
-    VisualizationData(QRectF rect, qreal x_margin, qreal y_margin);
+    VisualizationData(QRectF rect, QPointF margin,
+                      bool inverted_y_coordinate=false);
+    VisualizationData(QRectF rect, qreal x_margin, qreal y_margin,
+                      bool inverted_y_coordinate=false);
     VisualizationData(qreal x0, qreal y0,
                       qreal total_width, qreal total_height,
-                      qreal x_margin, qreal y_margin);
+                      qreal x_margin, qreal y_margin,
+                      bool inverted_y_coordinate=false);
 
+
+    bool inverted_y_coordinate;
 
     qreal width();
     qreal height();
@@ -26,12 +31,12 @@ public:
     qreal x_margin();
     qreal y_margin();
     QRectF get_area();
+    QPointF get_margin();
     QRectF active_area();
 
 private:
     QRectF area;
     QPointF margin;
-
 };
 
 #endif // VISUALIZATIONDATA_H

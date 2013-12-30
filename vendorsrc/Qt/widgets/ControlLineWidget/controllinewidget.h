@@ -27,6 +27,8 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     bool is_dragging(void);
+    qreal initial_width();
+    qreal initial_height();
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -35,13 +37,14 @@ protected:
     void safety_paint(QPainter &painter,
                       GraphicRenderer &object,
                       void (GraphicRenderer::*operation)(QPainter &painter) = &GraphicRenderer::paint);
+        QPoint from_app_to_canvas(GraphicRenderer panel, const QPoint &pressed_point);
 
 private:
     qreal knob_radius;
-
     QVector<QPointF> control_points;
 
     bool dragging;
+    QPoint mouse_pressed_position;
 
     GraphicRenderer render_area;
 

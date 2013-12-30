@@ -1,15 +1,7 @@
 #include <QtGui>
 
 #include "graphicrenderer.h"
-
-
-#define RENDER_WIDTH0  800.
-#define RENDER_HEIGHT0 500.
-#define RENDER_XMARGIN 80
-#define RENDER_YMARGIN RENDER_XMARGIN
-#define TOTAL_RENDER_WIDTH  (RENDER_WIDTH0  + 2 * RENDER_XMARGIN)
-#define TOTAL_RENDER_HEIGHT (RENDER_HEIGHT0 + 2 * RENDER_YMARGIN)
-
+#include "controllinewidget.h"
 
 const qreal GraphicRenderer::x_range[2] = {16., 30000.};
 const qreal GraphicRenderer::y_range[2] = {0., 2.};
@@ -25,7 +17,7 @@ GraphicRenderer::GraphicRenderer()
 }
 
 GraphicRenderer::GraphicRenderer(QWidget *parent,
-                                 PlotData plot_points,
+                                 PlotData &plot_points,
                                  VisualizationData visual_data,
                                  qreal knob_radius, bool logarithmic_axis)
 {
@@ -33,7 +25,7 @@ GraphicRenderer::GraphicRenderer(QWidget *parent,
     this->parent = parent;
     this->knob_radius = knob_radius;
     this->visual_data = visual_data;
-
+    this->plot_points = plot_points;
     active_point = -1;
 }
 
@@ -139,7 +131,7 @@ QPointF GraphicRenderer::to_logic(QPointF device)
     qreal x_0 = range_lower_limit().x();
     qreal x_max = range_upper_limit().x();
     qreal x_interval  = x_max - x_0;
-    qreal x_transform = device.x();
+    qreal x_transform = device.x() - visual_data.x0();
 
     x_transform /= factor_x;
 
@@ -156,7 +148,7 @@ QPointF GraphicRenderer::to_logic(QPointF device)
     qreal factor_y = (qreal) visual_data.height();
     qreal y_0 = range_lower_limit().y();
     qreal y_interval  = range_upper_limit().y() - y_0;
-    qreal y_transform = device.y();
+    qreal y_transform = device.y() - visual_data.y0();
 
     y_transform /= factor_y;
     y_transform *= y_interval;
@@ -167,15 +159,6 @@ QPointF GraphicRenderer::to_logic(QPointF device)
 
 QPointF GraphicRenderer::to_logic(qreal x, qreal y) { return to_logic(QPointF(x,y)); }
 
-
-QPoint GraphicRenderer::from_app_to_canvas(QPoint canvas)
-{
-    canvas  = QPoint( canvas.x() * TOTAL_RENDER_WIDTH  / parent->width()  ,
-                      canvas.y() * TOTAL_RENDER_HEIGHT / parent->height() );
-    canvas += QPoint(-RENDER_XMARGIN, - TOTAL_RENDER_HEIGHT + RENDER_YMARGIN);
-    canvas.setY(-canvas.y());
-    return canvas;
-}
 
 bool GraphicRenderer::hovers(const QPoint &mouse_abs_pos)
 {
@@ -197,11 +180,11 @@ void GraphicRenderer::draw_vertical_grid(QPainter &painter, int options)
         path.lineTo(to_dev(range_upper_limit().x(), mid_point));
         painter.strokePath(path, pen_main);
 
-        QPointF text_point = to_dev(range_lower_limit().x(), -mid_point);
-        text_point.setX(text_point.x() - visual_data.x_margin() / 2);
         painter.save();
+        QPointF text_point = to_dev(range_lower_limit().x(), mid_point);
+        painter.translate(text_point);
         painter.scale(1, -1);
-        painter.drawText(text_point, QString::number(mid_point));
+        painter.drawText(- visual_data.x_margin() / 2, 0, QString::number(mid_point));
         painter.restore();
     }
 
@@ -231,7 +214,7 @@ void GraphicRenderer::draw_vertical_grid(QPainter &painter, int options)
             painter.save();
             painter.scale(1, -1);
             QPointF text_point = to_dev( range_lower_limit().x(), -i );
-            text_point.setX(text_point.x() - RENDER_XMARGIN / 4);
+            text_point.setX(text_point.x() - visual_data.x_margin() / 2);
             painter.drawText(text_point, QString::number(i));
             painter.restore();
             main_div = true;
@@ -262,11 +245,11 @@ void GraphicRenderer::draw_horizontal_mid_div(QPainter &painter)
     path.lineTo(to_dev(mid_point, range_upper_limit().y()));
     painter.strokePath(path, pen_main);
 
-    QPointF text_point = to_dev(mid_point, range_lower_limit().y());
-    text_point.setY(text_point.y() + RENDER_YMARGIN / 4);
     painter.save();
+    QPointF text_point = to_dev(mid_point, range_lower_limit().y());
+    painter.translate(text_point);
     painter.scale(1, -1);
-    painter.drawText(text_point, QString::number(mid_point));
+    painter.drawText(0, visual_data.y_margin() / 2, QString::number(mid_point));
     painter.restore();
 
     painter.restore();
@@ -302,10 +285,10 @@ void GraphicRenderer::draw_horizontal_grid(QPainter &painter, int options)
              times <  int_times + delta) {
             p_pen = &pen_main;
             painter.save();
-            painter.scale(1, -1);
             QPointF text_point = to_dev( i, y_range[0] );
-            text_point.setY(text_point.y() + RENDER_YMARGIN / 4);
-            painter.drawText(text_point, QString::number(i));
+            painter.translate(text_point);
+            painter.scale(1, -1);
+            painter.drawText(0, visual_data.y_margin() / 2, QString::number(i));
             painter.restore();
             main_div = true;
         }
@@ -338,24 +321,29 @@ void GraphicRenderer::draw_horizontal_log_grid(QPainter &painter, int options)
 
     for (int i = range_init; i<= range_end;
          i+= (int) qPow( 10, (int) (qLn(i+1) / M_LN10) ) ){
+        bool main_div = false;
         QPainterPath path;
         if ( i == range_init ||
              (qLn(i+1) / M_LN10 < (int) (qLn(i+1) / M_LN10) + delta &&
               qLn(i+1) / M_LN10 > (int) (qLn(i+1) / M_LN10) - delta) ){
            p_pen = &pen_main;
+
            painter.save();
+           QPointF text_point = to_dev(i, range_lower_limit().y());
+           painter.translate(text_point);
            painter.scale(1, -1);
-           QPointF text_point = to_dev(i, y_range[0]);
-           text_point.setY(text_point.y() + RENDER_YMARGIN / 4);
-           painter.drawText( text_point,
+           painter.drawText( 0, visual_data.y_margin() / 2,
                             QString::number(i));
 
            painter.restore();
+           main_div = true;
         } else
             p_pen = &pen_sub;
 
-        path.moveTo( to_dev(i, y_range[0]) );
-        path.lineTo( to_dev(i, linear_limit(y_range[1])) );
+        if (main_div || options & SUB_DIV) {
+            path.moveTo( to_dev(i, y_range[0]) );
+            path.lineTo( to_dev(i, linear_limit(y_range[1])) );
+        }
         painter.strokePath(path, *p_pen);
     }
     painter.restore();
@@ -365,16 +353,19 @@ void GraphicRenderer::paint(QPainter &painter)
 {
     QPainterPath path;
     QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    QVector<QPointF> control_point = plot_points.points();
 
-    path.moveTo(to_dev(control_points.at(0)));
-    for (int i=1; i<control_points.size(); i++)
-        path.lineTo(to_dev(control_points.at(i)));
+
+    path.moveTo(to_dev(control_point.at(0)));
+    for (int i=1; i<control_point.size(); i++)
+        path.lineTo(to_dev(control_point.at(i)));
     painter.strokePath(path, pen);
 
     painter.setPen(QColor(50, 100, 120, 200));
     painter.setBrush(QColor(200, 200, 210, 120));
-    for (int i=0; i<control_points.size(); i++)
-        painter.drawEllipse(to_dev(control_points.at(i)), knob_radius, knob_radius);
+    for (int i=0; i<control_point.size(); i++)
+        painter.drawEllipse(to_dev(control_point.at(i)), knob_radius, knob_radius);
+
 
 }
 
@@ -393,21 +384,25 @@ void GraphicRenderer::setup_canvas(QPainter &painter)
     painter.fillRect(visual_data.x_margin(), visual_data.y_margin(),
                      visual_data.width(), visual_data.height(), QBrush(Qt::white));
 
-    logarithmic ? draw_horizontal_log_grid(painter) : draw_horizontal_grid(painter);
+    logarithmic ? draw_horizontal_log_grid(painter) : draw_horizontal_grid(painter, MID_POINT);
     draw_vertical_grid(painter, MID_POINT);
 }
 
 void GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 {
-    mouse_pressed_pos = from_app_to_canvas(mouse_pos);
+    QVector<QPointF> control_points = plot_points.points();
+
+    mouse_pressed_pos = mouse_pos;
+
     for (int i=0; i<control_points.size(); ++i)
         if ((to_dev(control_points.at(i)) - mouse_pressed_pos).manhattanLength() < 2 * knob_radius )
             active_point = i;
 }
 
-void GraphicRenderer::update_dragging(const QPoint &mouse_pos)
+void GraphicRenderer::update_dragging(const QPoint &mouse_now)
 {
-    QPoint mouse_now = from_app_to_canvas(mouse_pos);
+    QVector<QPointF> &control_points = plot_points.points();
+
     if (!dragging &&
         ( mouse_pressed_pos -
           mouse_now
@@ -416,9 +411,8 @@ void GraphicRenderer::update_dragging(const QPoint &mouse_pos)
 
     if (dragging && active_point >= 0){
         QPointF new_position = to_logic(mouse_now);
-        QPointF *selected = &control_points[active_point];
-        selected->setX(new_position.x());
-        selected->setY(new_position.y());
+        control_points[active_point].setX(new_position.x());
+        control_points[active_point].setY(new_position.y());
         // parent->update();
     }
 
@@ -428,6 +422,7 @@ void GraphicRenderer::stop_dragging()
 {
     dragging     = false;
     active_point = -1;
-
 }
+
+VisualizationData GraphicRenderer::get_visualization_data() { return visual_data; }
 

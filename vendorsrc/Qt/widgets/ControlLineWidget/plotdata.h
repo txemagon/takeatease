@@ -10,6 +10,8 @@ public:
     PlotData();
     PlotData(QVector<QPointF> point);
 
+    QVector<QPointF> &points();
+
 private:
     QVector<QPointF> point;
 };
