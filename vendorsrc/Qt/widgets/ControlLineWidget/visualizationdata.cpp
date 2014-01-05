@@ -1,15 +1,6 @@
 #include "visualizationdata.h"
 
 
-#define RENDER_WIDTH0  800.
-#define RENDER_HEIGHT0 500.
-#define RENDER_XMARGIN 80
-#define RENDER_YMARGIN XMARGIN
-#define TOTAL_RENDER_WIDTH  (RENDER_WIDTH0  + 2 * RENDER_XMARGIN)
-#define TOTAL_RENDER_HEIGHT (RENDER_HEIGHT0 + 2 * RENDER_YMARGIN)
-
-
-
 VisualizationData::VisualizationData(): area(), margin()
 {
 }
@@ -34,6 +25,9 @@ VisualizationData::VisualizationData(qreal x0, qreal y0,
 
 qreal VisualizationData::width()  { return active_area().width(); }
 qreal VisualizationData::height() { return active_area().height(); }
+
+void VisualizationData::set_width(qreal width) { area.setWidth(width); }
+void VisualizationData::set_height(qreal height) { area.setHeight(height);}
 
 qreal VisualizationData::x0() { return area.left(); }
 qreal VisualizationData::y0() { return area.top(); }

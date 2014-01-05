@@ -18,7 +18,7 @@ class GraphicRenderer;
 class ControlLineWidget : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     ControlLineWidget(QWidget *parent = 0);
     ~ControlLineWidget();
@@ -27,8 +27,9 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     bool is_dragging(void);
-    qreal initial_width();
-    qreal initial_height();
+    qreal initial_width() const;
+    qreal initial_height() const;
+    void set_initial_dimensions(QRect dimension);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -37,9 +38,15 @@ protected:
     void safety_paint(QPainter &painter,
                       GraphicRenderer &object,
                       void (GraphicRenderer::*operation)(QPainter &painter) = &GraphicRenderer::paint);
-        QPoint from_app_to_canvas(GraphicRenderer panel, const QPoint &pressed_point);
+    QPoint from_app_to_canvas(GraphicRenderer panel, const QPoint &pressed_point);
 
 private:
+    qreal width0;
+    qreal height0;
+    qreal total_render_width;
+    qreal total_render_height;
+
+    QWidget *container;
     qreal knob_radius;
     QVector<QPointF> control_points;
 
@@ -47,6 +54,7 @@ private:
     QPoint mouse_pressed_position;
 
     GraphicRenderer render_area;
+
 
 };
 

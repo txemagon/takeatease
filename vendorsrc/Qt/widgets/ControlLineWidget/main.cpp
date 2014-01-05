@@ -1,10 +1,10 @@
 #include <QtGui/QApplication>
-#include "controllinewidget.h"
+#include "controlboard.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ControlLineWidget w;
+    ControlBoard w;
     w.show();
     
     return a.exec();

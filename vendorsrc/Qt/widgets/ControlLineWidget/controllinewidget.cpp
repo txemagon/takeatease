@@ -4,20 +4,15 @@
 #include "controllinewidget.h"
 #include "plotdata.h"
 
-
-#define RENDER_WIDTH0  800.
-#define RENDER_HEIGHT0 500.
-#define RENDER_XMARGIN 80
+#define RENDER_XMARGIN 60
 #define RENDER_YMARGIN RENDER_XMARGIN
-#define TOTAL_RENDER_WIDTH  (RENDER_WIDTH0  + 2 * RENDER_XMARGIN)
-#define TOTAL_RENDER_HEIGHT (RENDER_HEIGHT0 + 2 * RENDER_YMARGIN)
-
-#define INITIAL_WIDTH  TOTAL_RENDER_WIDTH
-#define INITIAL_HEIGHT TOTAL_RENDER_HEIGHT
 
 ControlLineWidget::ControlLineWidget(QWidget *parent)
     : QWidget(parent)
 {
+    container = parent;
+    width0    = 0;
+    height0   = 0;
 
     knob_radius  =  7;
 
@@ -29,21 +24,6 @@ ControlLineWidget::ControlLineWidget(QWidget *parent)
                       QPointF(16., .7) <<
                       QPointF(3000., 1.) <<
                       QPointF(25000., 1.20);
-
-    PlotData data(control_points);
-
-    render_area = GraphicRenderer (this,
-                                data,
-                                VisualizationData( RENDER_XMARGIN / 2,
-                                                   RENDER_YMARGIN / 2,
-                                                   TOTAL_RENDER_WIDTH  - RENDER_XMARGIN,
-                                                   TOTAL_RENDER_HEIGHT - RENDER_YMARGIN,
-                                                   RENDER_XMARGIN / 2,
-                                                   RENDER_YMARGIN / 2, true),
-                                knob_radius, LOGARITHMIC_AXIS);
-
-    setWindowTitle("Control Line");
-    resize(TOTAL_RENDER_WIDTH, TOTAL_RENDER_HEIGHT);
 }
 
 
@@ -60,24 +40,54 @@ void ControlLineWidget::safety_paint(QPainter &painter,
 
 void ControlLineWidget::setup_canvas(QPainter &painter)
 {
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.scale(width() / TOTAL_RENDER_WIDTH, height() / TOTAL_RENDER_HEIGHT);
 
-    // Black background rectangle
-    QLinearGradient gradient(QPointF(0., 0.),
-                             QPointF(TOTAL_RENDER_WIDTH, TOTAL_RENDER_HEIGHT));
-    gradient.setColorAt(0, Qt::black);
-    gradient.setColorAt(1, Qt::gray);
-    painter.fillRect(0, 0, TOTAL_RENDER_WIDTH, TOTAL_RENDER_HEIGHT, gradient);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.scale(container->width()  / total_render_width,
+                      container->height() / total_render_height);
 
-    safety_paint(painter, render_area, &GraphicRenderer::setup_canvas);
+        // Black background rectangle
+        QLinearGradient gradient(QPointF(0., 0.),
+                                 QPointF(total_render_width, total_render_height));
+        gradient.setColorAt(0, Qt::black);
+        gradient.setColorAt(1, Qt::gray);
+        painter.fillRect(0, 0, total_render_width, total_render_height, gradient);
+
+        safety_paint(painter, render_area, &GraphicRenderer::setup_canvas);
+
+}
+
+void ControlLineWidget::set_initial_dimensions(QRect dimension)
+{
+    if ( !(int) total_render_width &&
+         !(int) total_render_height) {
+
+        total_render_width = dimension.width();
+        width0 = total_render_width - 2 * RENDER_XMARGIN;
+        total_render_height = dimension.height();
+        height0 = total_render_height - 2 * RENDER_YMARGIN;
+
+        PlotData data(control_points);
+        render_area = GraphicRenderer (this,
+                                    data,
+                                    VisualizationData( RENDER_XMARGIN / 2,
+                                                       RENDER_YMARGIN / 2,
+                                                       total_render_width  - RENDER_XMARGIN,
+                                                       total_render_height - RENDER_YMARGIN,
+                                                       RENDER_XMARGIN / 2,
+                                                       RENDER_YMARGIN / 2, true),
+                                    knob_radius, LOGARITHMIC_AXIS);
+        resize(total_render_width, total_render_height);
+    }
+
 }
 
 void ControlLineWidget::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
-    setup_canvas(painter);
-    safety_paint(painter, render_area);
+
+        QPainter painter(this);
+        setup_canvas(painter);
+        safety_paint(painter, render_area);
+
 }
 
 QPoint ControlLineWidget::from_app_to_canvas(GraphicRenderer panel, const QPoint &pressed_point)
@@ -85,8 +95,10 @@ QPoint ControlLineWidget::from_app_to_canvas(GraphicRenderer panel, const QPoint
     VisualizationData visual = panel.get_visualization_data();
     QPoint top = visual.get_area().topLeft().toPoint();
     QPointF absolute_point = pressed_point;
-    absolute_point.setX(absolute_point.x() * initial_width()  / width());
-    absolute_point.setY(absolute_point.y() * initial_height() / height());
+
+
+    absolute_point.setX(absolute_point.x() * initial_width()  / container->width());
+    absolute_point.setY(absolute_point.y() * initial_height() / container->height());
     QPoint corner = absolute_point.toPoint() - top;
 
     if (visual.inverted_y_coordinate)
@@ -127,8 +139,8 @@ void ControlLineWidget::mouseReleaseEvent(QMouseEvent *event)
 
 bool ControlLineWidget::is_dragging() { return dragging; }
 
-qreal ControlLineWidget::initial_width() { return INITIAL_WIDTH; }
+qreal ControlLineWidget::initial_width() const { return total_render_width; }
 
-qreal ControlLineWidget::initial_height() { return INITIAL_HEIGHT; }
+qreal ControlLineWidget::initial_height() const { return total_render_height; }
 
 ControlLineWidget::~ControlLineWidget() { ; }

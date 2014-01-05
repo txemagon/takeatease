@@ -22,6 +22,8 @@ public:
 
     qreal width();
     qreal height();
+    void set_width(qreal width);
+    void set_height(qreal height);
     qreal x0();  // frame coordinate
     qreal y0();
     qreal x1();  // content coordinate

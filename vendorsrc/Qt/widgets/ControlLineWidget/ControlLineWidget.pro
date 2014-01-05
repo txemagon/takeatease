@@ -1,25 +1,26 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2013-12-26T01:36:14
+# Project created by QtCreator 2014-01-04T14:28:51
 #
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG   += console
 
 TARGET = ControlLineWidget
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        controllinewidget.cpp \
-    graphicrenderer.cpp \
+        controlboard.cpp \
     visualizationdata.cpp \
-    plotdata.cpp
+    plotdata.cpp \
+    graphicrenderer.cpp \
+    controllinewidget.cpp
 
-HEADERS  += plotdata.h \
+HEADERS  += controlboard.h \
     visualizationdata.h \
+    plotdata.h \
     graphicrenderer.h \
     controllinewidget.h
 
-
+FORMS    += controlboard.ui
