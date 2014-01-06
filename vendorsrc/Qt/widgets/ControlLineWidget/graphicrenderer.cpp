@@ -355,7 +355,6 @@ void GraphicRenderer::paint(QPainter &painter)
     QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     QVector<QPointF> control_point = plot_points.points();
 
-
     path.moveTo(to_dev(control_point.at(0)));
     for (int i=1; i<control_point.size(); i++)
         path.lineTo(to_dev(control_point.at(i)));
@@ -366,9 +365,11 @@ void GraphicRenderer::paint(QPainter &painter)
     for (int i=0; i<control_point.size(); i++)
         painter.drawEllipse(to_dev(control_point.at(i)), knob_radius, knob_radius);
 
+    if (active_point > -1)
+        painter.drawEllipse(to_dev(control_point.at(active_point)),
+                            knob_radius + 2, knob_radius + 2);
 
 }
-
 
 void GraphicRenderer::setup_canvas(QPainter &painter)
 {
@@ -388,15 +389,17 @@ void GraphicRenderer::setup_canvas(QPainter &painter)
     draw_vertical_grid(painter, MID_POINT);
 }
 
-void GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
+int GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 {
     QVector<QPointF> control_points = plot_points.points();
 
     mouse_pressed_pos = mouse_pos;
+    active_point = -1; // Erases previous selection
 
     for (int i=0; i<control_points.size(); ++i)
         if ((to_dev(control_points.at(i)) - mouse_pressed_pos).manhattanLength() < 2 * knob_radius )
             active_point = i;
+    return active_point;
 }
 
 void GraphicRenderer::update_dragging(const QPoint &mouse_now)
@@ -425,4 +428,7 @@ void GraphicRenderer::stop_dragging()
 }
 
 VisualizationData GraphicRenderer::get_visualization_data() { return visual_data; }
+
+int GraphicRenderer::get_active_point() { return active_point; }
+
 

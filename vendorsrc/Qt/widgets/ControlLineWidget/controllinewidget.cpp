@@ -24,6 +24,8 @@ ControlLineWidget::ControlLineWidget(QWidget *parent)
                       QPointF(16., .7) <<
                       QPointF(3000., 1.) <<
                       QPointF(25000., 1.20);
+    connect((const QObject *) &control_points, SIGNAL(coordinates_changed(int, QPointF)),
+            this, SLOT(broadcast_active_point_coords_changed(int,QPointF)));
 }
 
 
@@ -40,7 +42,6 @@ void ControlLineWidget::safety_paint(QPainter &painter,
 
 void ControlLineWidget::setup_canvas(QPainter &painter)
 {
-
         painter.setRenderHint(QPainter::Antialiasing);
         painter.scale(container->width()  / total_render_width,
                       container->height() / total_render_height);
@@ -53,7 +54,6 @@ void ControlLineWidget::setup_canvas(QPainter &painter)
         painter.fillRect(0, 0, total_render_width, total_render_height, gradient);
 
         safety_paint(painter, render_area, &GraphicRenderer::setup_canvas);
-
 }
 
 void ControlLineWidget::set_initial_dimensions(QRect dimension)
@@ -81,13 +81,22 @@ void ControlLineWidget::set_initial_dimensions(QRect dimension)
 
 }
 
+void ControlLineWidget::broadcast_active_point_coords_changed(int point, QPointF value)
+{
+    if (point == render_area.get_active_point())
+        emit(active_point_coords_changed(value));
+}
+
+QPointF &ControlLineWidget::get_active_point()
+{
+    return control_points[render_area.get_active_point()];
+}
+
 void ControlLineWidget::paintEvent(QPaintEvent *)
 {
-
         QPainter painter(this);
         setup_canvas(painter);
         safety_paint(painter, render_area);
-
 }
 
 QPoint ControlLineWidget::from_app_to_canvas(GraphicRenderer panel, const QPoint &pressed_point)
@@ -114,7 +123,7 @@ void ControlLineWidget::mousePressEvent(QMouseEvent *event)
     QPoint mouse_position = from_app_to_canvas(render_area, mouse_pressed_position);
 
     if (render_area.hovers(event->pos()))
-        render_area.decide_dragging( mouse_position );
+        emit active_point_changed(render_area.decide_dragging( mouse_position ));
 
 }
 
@@ -132,15 +141,9 @@ void ControlLineWidget::mouseMoveEvent(QMouseEvent *event)
 
 }
 
-void ControlLineWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    dragging = false;
-}
-
+void ControlLineWidget::mouseReleaseEvent(QMouseEvent *) { dragging = false; }
 bool ControlLineWidget::is_dragging() { return dragging; }
-
 qreal ControlLineWidget::initial_width() const { return total_render_width; }
-
 qreal ControlLineWidget::initial_height() const { return total_render_height; }
 
 ControlLineWidget::~ControlLineWidget() { ; }

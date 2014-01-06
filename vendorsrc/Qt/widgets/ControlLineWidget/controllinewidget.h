@@ -31,6 +31,13 @@ public:
     qreal initial_height() const;
     void set_initial_dimensions(QRect dimension);
 
+public slots:
+    void broadcast_active_point_coords_changed(int point, QPointF value);
+
+signals:
+    void active_point_changed(int value);
+    void active_point_coords_changed(QPointF value);
+
 protected:
     void paintEvent(QPaintEvent *event);
 
@@ -54,7 +61,7 @@ private:
     QPoint mouse_pressed_position;
 
     GraphicRenderer render_area;
-
+    QPointF &get_active_point();
 
 };
 

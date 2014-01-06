@@ -28,11 +28,11 @@ public:
     void paint(QPainter &painter);
 
     bool hovers(const QPoint &mouse_abs_pos);
-    void decide_dragging(const QPoint &mouse_pos);
+    int decide_dragging(const QPoint &mouse_pos);
     void update_dragging(const QPoint &mouse_now);
     void stop_dragging();
     VisualizationData get_visualization_data();
-
+    int get_active_point();
 
 protected:
     int linear_limit(qreal range);

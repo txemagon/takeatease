@@ -17,9 +17,9 @@ SOURCES += main.cpp\
     graphicrenderer.cpp \
     controllinewidget.cpp
 
-HEADERS  += controlboard.h \
+HEADERS  += plotdata.h \
+    controlboard.h \
     visualizationdata.h \
-    plotdata.h \
     graphicrenderer.h \
     controllinewidget.h
 
