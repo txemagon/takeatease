@@ -55,7 +55,7 @@ private:
 
     QWidget *container;
     qreal knob_radius;
-    QVector<QPointF> control_points;
+    PlotData control_points;
 
     bool dragging;
     QPoint mouse_pressed_position;

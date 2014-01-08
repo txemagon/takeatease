@@ -18,7 +18,7 @@ class GraphicRenderer
 public:
     GraphicRenderer();
     GraphicRenderer(QWidget *parent,
-                    PlotData &plot_points,
+                    PlotData *plot_points,
                     VisualizationData visual_data,
                     qreal knob_radius,
                     bool logarithmic_axis);
@@ -50,7 +50,7 @@ private:
 
     static const qreal x_range[2];
     static const qreal y_range[2];
-    PlotData plot_points;
+    PlotData *plot_points;
     VisualizationData visual_data;
 
     bool logarithmic;

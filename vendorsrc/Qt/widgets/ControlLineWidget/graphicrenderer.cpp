@@ -17,7 +17,7 @@ GraphicRenderer::GraphicRenderer()
 }
 
 GraphicRenderer::GraphicRenderer(QWidget *parent,
-                                 PlotData &plot_points,
+                                 PlotData *plot_points,
                                  VisualizationData visual_data,
                                  qreal knob_radius, bool logarithmic_axis)
 {
@@ -353,7 +353,7 @@ void GraphicRenderer::paint(QPainter &painter)
 {
     QPainterPath path;
     QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-    QVector<QPointF> control_point = plot_points.points();
+    QVector<QPointF> control_point = plot_points->points();
 
     path.moveTo(to_dev(control_point.at(0)));
     for (int i=1; i<control_point.size(); i++)
@@ -391,7 +391,7 @@ void GraphicRenderer::setup_canvas(QPainter &painter)
 
 int GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 {
-    QVector<QPointF> control_points = plot_points.points();
+    QVector<QPointF> control_points = plot_points->points();
 
     mouse_pressed_pos = mouse_pos;
     active_point = -1; // Erases previous selection
@@ -404,7 +404,7 @@ int GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 
 void GraphicRenderer::update_dragging(const QPoint &mouse_now)
 {
-    QVector<QPointF> &control_points = plot_points.points();
+    QVector<QPointF> &control_points = plot_points->points();
 
     if (!dragging &&
         ( mouse_pressed_pos -

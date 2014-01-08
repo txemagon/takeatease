@@ -18,6 +18,7 @@ ControlBoard::ControlBoard(QWidget *parent) :
 
 ControlBoard::~ControlBoard()
 {
+    delete controlLineWidget;
     delete ui;
 }
 

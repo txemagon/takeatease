@@ -19,13 +19,12 @@ ControlLineWidget::ControlLineWidget(QWidget *parent)
     mouse_pressed_position = QPoint(-1, -1);
     dragging     = false;
 
-    control_points.clear();
-    control_points <<
+    control_points.points() <<
                       QPointF(16., .7) <<
                       QPointF(3000., 1.) <<
                       QPointF(25000., 1.20);
-    connect((const QObject *) &control_points, SIGNAL(coordinates_changed(int, QPointF)),
-            this, SLOT(broadcast_active_point_coords_changed(int,QPointF)));
+    // connect((const QObject *) &control_points, SIGNAL(coordinates_changed(int, QPointF)),
+    //        this, SLOT(broadcast_active_point_coords_changed(int,QPointF)));
 }
 
 
@@ -66,9 +65,8 @@ void ControlLineWidget::set_initial_dimensions(QRect dimension)
         total_render_height = dimension.height();
         height0 = total_render_height - 2 * RENDER_YMARGIN;
 
-        PlotData data(control_points);
         render_area = GraphicRenderer (this,
-                                    data,
+                                    &control_points,
                                     VisualizationData( RENDER_XMARGIN / 2,
                                                        RENDER_YMARGIN / 2,
                                                        total_render_width  - RENDER_XMARGIN,
@@ -89,7 +87,7 @@ void ControlLineWidget::broadcast_active_point_coords_changed(int point, QPointF
 
 QPointF &ControlLineWidget::get_active_point()
 {
-    return control_points[render_area.get_active_point()];
+    return control_points.points()[render_area.get_active_point()];
 }
 
 void ControlLineWidget::paintEvent(QPaintEvent *)
