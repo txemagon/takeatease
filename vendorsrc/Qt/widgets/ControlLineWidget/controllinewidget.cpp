@@ -20,11 +20,12 @@ ControlLineWidget::ControlLineWidget(QWidget *parent)
     dragging     = false;
 
     control_points.points() <<
-                      QPointF(16., .7) <<
-                      QPointF(3000., 1.) <<
-                      QPointF(25000., 1.20);
-    // connect((const QObject *) &control_points, SIGNAL(coordinates_changed(int, QPointF)),
-    //        this, SLOT(broadcast_active_point_coords_changed(int,QPointF)));
+                      new PlotPoint(16., .7, true) <<
+                      new PlotPoint(3000., 1.) <<
+                      new PlotPoint(25000., 1.20, true);
+
+    connect(&control_points, SIGNAL(coordinates_changed(int, const PlotPoint &)),
+            this, SLOT(broadcast_active_point_coords_changed(int, const PlotPoint &)));
 }
 
 
@@ -79,7 +80,8 @@ void ControlLineWidget::set_initial_dimensions(QRect dimension)
 
 }
 
-void ControlLineWidget::broadcast_active_point_coords_changed(int point, QPointF value)
+void ControlLineWidget::broadcast_active_point_coords_changed(int point,
+                                                              const PlotPoint &value)
 {
     if (point == render_area.get_active_point())
         emit(active_point_coords_changed(value));
@@ -87,7 +89,7 @@ void ControlLineWidget::broadcast_active_point_coords_changed(int point, QPointF
 
 QPointF &ControlLineWidget::get_active_point()
 {
-    return control_points.points()[render_area.get_active_point()];
+    return *control_points.points()[render_area.get_active_point()];
 }
 
 void ControlLineWidget::paintEvent(QPaintEvent *)
@@ -120,8 +122,11 @@ void ControlLineWidget::mousePressEvent(QMouseEvent *event)
     mouse_pressed_position = event->pos();
     QPoint mouse_position = from_app_to_canvas(render_area, mouse_pressed_position);
 
-    if (render_area.hovers(event->pos()))
-        emit active_point_changed(render_area.decide_dragging( mouse_position ));
+    if (render_area.hovers(event->pos())) {
+        int active_point = render_area.decide_dragging( mouse_position );
+        emit active_point_changed( active_point,
+                                  *control_points.points().at(active_point));
+    }
 
 }
 
@@ -133,6 +138,9 @@ void ControlLineWidget::mouseMoveEvent(QMouseEvent *event)
     if (dragging){
         QPoint mouse_pos = from_app_to_canvas(render_area, event->pos());
         render_area.update_dragging(mouse_pos);
+        emit active_point_coords_changed(
+                    *control_points.points().at( render_area.get_active_point())
+                    );
     }
 
     update();

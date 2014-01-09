@@ -32,11 +32,11 @@ public:
     void set_initial_dimensions(QRect dimension);
 
 public slots:
-    void broadcast_active_point_coords_changed(int point, QPointF value);
+    void broadcast_active_point_coords_changed(int point, const PlotPoint &value);
 
 signals:
-    void active_point_changed(int value);
-    void active_point_coords_changed(QPointF value);
+    void active_point_changed(int value, const PlotPoint &);
+    void active_point_coords_changed(const PlotPoint &value);
 
 protected:
     void paintEvent(QPaintEvent *event);

@@ -15,12 +15,14 @@ SOURCES += main.cpp\
     visualizationdata.cpp \
     plotdata.cpp \
     graphicrenderer.cpp \
-    controllinewidget.cpp
+    controllinewidget.cpp \
+    plotpoint.cpp
 
 HEADERS  += plotdata.h \
     controlboard.h \
     visualizationdata.h \
     graphicrenderer.h \
-    controllinewidget.h
+    controllinewidget.h \
+    plotpoint.h
 
 FORMS    += controlboard.ui

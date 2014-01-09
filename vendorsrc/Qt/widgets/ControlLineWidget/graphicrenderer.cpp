@@ -27,6 +27,7 @@ GraphicRenderer::GraphicRenderer(QWidget *parent,
     this->visual_data = visual_data;
     this->plot_points = plot_points;
     active_point = -1;
+
 }
 
 void GraphicRenderer::set_coords(QPainter &painter)
@@ -123,6 +124,11 @@ QPointF GraphicRenderer::to_dev(QPointF logical)
                    y_transform + visual_data.y_margin());
 }
 
+QPointF GraphicRenderer::to_dev(QPointF *logical)
+{
+    return to_dev(*logical);
+}
+
 QPointF GraphicRenderer::to_dev(qreal x, qreal y) { return to_dev(QPointF(x, y)); }
 
 QPointF GraphicRenderer::to_logic(QPointF device)
@@ -155,6 +161,11 @@ QPointF GraphicRenderer::to_logic(QPointF device)
     y_transform += y_0;
 
     return QPointF(x_transform, y_transform);
+}
+
+QPointF GraphicRenderer::to_logic(QPointF *device)
+{
+    return to_logic(*device);
 }
 
 QPointF GraphicRenderer::to_logic(qreal x, qreal y) { return to_logic(QPointF(x,y)); }
@@ -353,7 +364,7 @@ void GraphicRenderer::paint(QPainter &painter)
 {
     QPainterPath path;
     QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-    QVector<QPointF> control_point = plot_points->points();
+    QVector<PlotPoint *> control_point = plot_points->points();
 
     path.moveTo(to_dev(control_point.at(0)));
     for (int i=1; i<control_point.size(); i++)
@@ -391,7 +402,7 @@ void GraphicRenderer::setup_canvas(QPainter &painter)
 
 int GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 {
-    QVector<QPointF> control_points = plot_points->points();
+    QVector<PlotPoint *> control_points = plot_points->points();
 
     mouse_pressed_pos = mouse_pos;
     active_point = -1; // Erases previous selection
@@ -404,7 +415,7 @@ int GraphicRenderer::decide_dragging(const QPoint &mouse_pos)
 
 void GraphicRenderer::update_dragging(const QPoint &mouse_now)
 {
-    QVector<QPointF> &control_points = plot_points->points();
+    QVector<PlotPoint *> control_points = plot_points->points();
 
     if (!dragging &&
         ( mouse_pressed_pos -
@@ -414,8 +425,8 @@ void GraphicRenderer::update_dragging(const QPoint &mouse_now)
 
     if (dragging && active_point >= 0){
         QPointF new_position = to_logic(mouse_now);
-        control_points[active_point].setX(new_position.x());
-        control_points[active_point].setY(new_position.y());
+        control_points[active_point]->setX(new_position.x());
+        control_points[active_point]->setY(new_position.y());
         // parent->update();
     }
 

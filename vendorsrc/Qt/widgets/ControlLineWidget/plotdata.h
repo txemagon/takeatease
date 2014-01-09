@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QVector>
 #include <QPointF>
+#include "plotpoint.h"
 
 class PlotData : public QObject
 {
@@ -12,14 +13,14 @@ public:
     PlotData();
     PlotData(QVector<QPointF> point);
 
-    QVector<QPointF> &points();
+    QVector<PlotPoint *> &points();
     void set_coords(int point, QPointF coords);
 
 signals:
-    void coordinates_changed(int point_index, QPointF point);
+    void coordinates_changed(int point_index, const PlotPoint &point);
 
 private:
-    QVector<QPointF> point;
+    QVector<PlotPoint *> point;
 };
 
 #endif // PLOTDATA_H

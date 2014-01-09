@@ -18,8 +18,8 @@ public:
     void resizeEvent(QResizeEvent *);
 
 public slots:
-    void change_in_active_point(int active_point);
-    void change_in_active_point(QPointF coords);
+    void change_in_active_point(int active_point, const PlotPoint &point);
+    void change_in_active_point(const PlotPoint &coords);
 
 private:
     Ui::ControlBoard *ui;

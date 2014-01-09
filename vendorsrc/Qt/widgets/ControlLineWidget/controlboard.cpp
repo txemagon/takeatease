@@ -10,10 +10,10 @@ ControlBoard::ControlBoard(QWidget *parent) :
     ui->setupUi(this);
     controlLineWidget = new ControlLineWidget(ui->frame_LineWidget);
 
-    connect(controlLineWidget, SIGNAL(active_point_changed(int)),
-            this, SLOT(change_in_active_point(int)));
-    connect(controlLineWidget, SIGNAL(active_point_coords_changed(QPointF)),
-            this, SLOT(change_in_active_point(QPointF)));
+    connect(controlLineWidget, SIGNAL(active_point_changed(int, const PlotPoint &)),
+            this, SLOT(change_in_active_point(int, const PlotPoint &)));
+    connect(controlLineWidget, SIGNAL(active_point_coords_changed(const PlotPoint &)),
+            this, SLOT(change_in_active_point(const PlotPoint &)));
 }
 
 ControlBoard::~ControlBoard()
@@ -31,7 +31,7 @@ void ControlBoard::resizeEvent(QResizeEvent *)
 
 }
 
-void ControlBoard::change_in_active_point(int active_point)
+void ControlBoard::change_in_active_point(int active_point, const PlotPoint &point)
 {
     QGroupBox *groupbox_CurrentPoint = ui->groupBox_CurrentPoint;
     QString title = "Current Point ";
@@ -41,12 +41,17 @@ void ControlBoard::change_in_active_point(int active_point)
     else {
         groupbox_CurrentPoint->setEnabled(true);
         title.append(QString::number(active_point + 1));
+
+        ui->doubleSpinBox_XPoint->setValue(point.x());
+        ui->doubleSpinBox_YPoint->setValue(point.y());
+        ui->checkBox_XLock->setChecked(point.x_lock());
+        ui->checkBox_YLock->setChecked(point.y_lock());
     }
     groupbox_CurrentPoint->setTitle(title);
     update();
 }
 
-void ControlBoard::change_in_active_point(QPointF coords)
+void ControlBoard::change_in_active_point(const PlotPoint &coords)
 {
     ui->doubleSpinBox_XPoint->setValue(coords.x());
     ui->doubleSpinBox_YPoint->setValue(coords.y());

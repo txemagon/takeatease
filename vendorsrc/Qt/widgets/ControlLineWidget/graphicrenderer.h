@@ -37,8 +37,10 @@ public:
 protected:
     int linear_limit(qreal range);
     QPointF to_dev(QPointF logical);
+    QPointF to_dev(QPointF *logical);
     QPointF to_dev(qreal x, qreal y);
     QPointF to_logic(QPointF device);
+    QPointF to_logic(QPointF *device);
     QPointF to_logic(qreal x, qreal y);
 
     void draw_horizontal_mid_div(QPainter &painter);
