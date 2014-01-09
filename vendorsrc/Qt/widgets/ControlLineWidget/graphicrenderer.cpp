@@ -396,7 +396,7 @@ void GraphicRenderer::setup_canvas(QPainter &painter)
     painter.fillRect(visual_data.x_margin(), visual_data.y_margin(),
                      visual_data.width(), visual_data.height(), QBrush(Qt::white));
 
-    logarithmic ? draw_horizontal_log_grid(painter) : draw_horizontal_grid(painter, MID_POINT);
+    logarithmic ? draw_horizontal_log_grid(painter) : draw_horizontal_grid(painter);
     draw_vertical_grid(painter, MID_POINT);
 }
 
@@ -441,5 +441,6 @@ void GraphicRenderer::stop_dragging()
 VisualizationData GraphicRenderer::get_visualization_data() { return visual_data; }
 
 int GraphicRenderer::get_active_point() { return active_point; }
+void GraphicRenderer::change_logarithmic(bool value) { logarithmic = value; }
 
 

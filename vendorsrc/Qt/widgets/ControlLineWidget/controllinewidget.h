@@ -33,6 +33,7 @@ public:
 
 public slots:
     void broadcast_active_point_coords_changed(int point, const PlotPoint &value);
+    void toggle_logarithmic(bool value);
 
 signals:
     void active_point_changed(int value, const PlotPoint &);

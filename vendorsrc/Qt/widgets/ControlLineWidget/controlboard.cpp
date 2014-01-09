@@ -10,10 +10,15 @@ ControlBoard::ControlBoard(QWidget *parent) :
     ui->setupUi(this);
     controlLineWidget = new ControlLineWidget(ui->frame_LineWidget);
 
+    /* incoming signals */
     connect(controlLineWidget, SIGNAL(active_point_changed(int, const PlotPoint &)),
             this, SLOT(change_in_active_point(int, const PlotPoint &)));
     connect(controlLineWidget, SIGNAL(active_point_coords_changed(const PlotPoint &)),
             this, SLOT(change_in_active_point(const PlotPoint &)));
+
+    /* outgoing signals */
+    connect(ui->checkBox_Logarithmic, SIGNAL(toggled(bool)),
+            controlLineWidget, SLOT(toggle_logarithmic(bool)));
 }
 
 ControlBoard::~ControlBoard()

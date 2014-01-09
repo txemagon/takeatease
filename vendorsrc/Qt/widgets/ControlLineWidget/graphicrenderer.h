@@ -33,6 +33,7 @@ public:
     void stop_dragging();
     VisualizationData get_visualization_data();
     int get_active_point();
+    void change_logarithmic(bool value);
 
 protected:
     int linear_limit(qreal range);

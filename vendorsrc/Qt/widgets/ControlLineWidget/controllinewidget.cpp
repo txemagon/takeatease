@@ -87,6 +87,12 @@ void ControlLineWidget::broadcast_active_point_coords_changed(int point,
         emit(active_point_coords_changed(value));
 }
 
+void ControlLineWidget::toggle_logarithmic(bool value)
+{
+    render_area.change_logarithmic(value);
+    update();
+}
+
 QPointF &ControlLineWidget::get_active_point()
 {
     return *control_points.points()[render_area.get_active_point()];
