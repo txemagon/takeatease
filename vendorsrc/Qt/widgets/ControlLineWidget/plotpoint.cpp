@@ -77,3 +77,6 @@ PlotPoint &PlotPoint::operator /=(qreal divisor)
 
 bool PlotPoint::x_lock() const { return locked[X]; }
 bool PlotPoint::y_lock() const { return locked[Y]; }
+
+void PlotPoint::set_x_lock(bool value) { locked[X] = value; }
+void PlotPoint::set_y_lock(bool value) { locked[Y] = value; }

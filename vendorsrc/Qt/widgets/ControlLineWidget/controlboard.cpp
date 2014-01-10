@@ -19,6 +19,10 @@ ControlBoard::ControlBoard(QWidget *parent) :
     /* outgoing signals */
     connect(ui->checkBox_Logarithmic, SIGNAL(toggled(bool)),
             controlLineWidget, SLOT(toggle_logarithmic(bool)));
+    connect(ui->checkBox_XLock, SIGNAL(toggled(bool)),
+            controlLineWidget, SLOT(toggle_active_point_x_lock(bool)));
+    connect(ui->checkBox_YLock, SIGNAL(toggled(bool)),
+            controlLineWidget, SLOT(toggle_active_point_y_lock(bool)));
 }
 
 ControlBoard::~ControlBoard()

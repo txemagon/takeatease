@@ -93,6 +93,17 @@ void ControlLineWidget::toggle_logarithmic(bool value)
     update();
 }
 
+void ControlLineWidget::toggle_active_point_x_lock(bool value)
+{
+    control_points.points()[render_area.get_active_point()]->set_x_lock(value);
+}
+
+void ControlLineWidget::toggle_active_point_y_lock(bool value)
+{
+    control_points.points()[render_area.get_active_point()]->set_y_lock(value);
+}
+
+
 QPointF &ControlLineWidget::get_active_point()
 {
     return *control_points.points()[render_area.get_active_point()];

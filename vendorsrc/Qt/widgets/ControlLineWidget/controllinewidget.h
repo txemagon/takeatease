@@ -34,6 +34,8 @@ public:
 public slots:
     void broadcast_active_point_coords_changed(int point, const PlotPoint &value);
     void toggle_logarithmic(bool value);
+    void toggle_active_point_x_lock(bool value);
+    void toggle_active_point_y_lock(bool value);
 
 signals:
     void active_point_changed(int value, const PlotPoint &);

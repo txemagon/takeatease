@@ -26,6 +26,9 @@ public:
     bool x_lock() const;
     bool y_lock() const;
 
+    void set_x_lock(bool value);
+    void set_y_lock(bool value);
+
 signals:
     void cordinates_changed(QPointF);
     
