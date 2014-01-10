@@ -23,6 +23,10 @@ ControlBoard::ControlBoard(QWidget *parent) :
             controlLineWidget, SLOT(toggle_active_point_x_lock(bool)));
     connect(ui->checkBox_YLock, SIGNAL(toggled(bool)),
             controlLineWidget, SLOT(toggle_active_point_y_lock(bool)));
+    connect(ui->doubleSpinBox_XPoint, SIGNAL(valueChanged(double)),
+            controlLineWidget, SLOT(change_active_point_x_value(double)));
+    connect(ui->doubleSpinBox_YPoint, SIGNAL(valueChanged(double)),
+            controlLineWidget, SLOT(change_active_point_y_value(double)));
 }
 
 ControlBoard::~ControlBoard()

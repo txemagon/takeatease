@@ -36,6 +36,8 @@ public slots:
     void toggle_logarithmic(bool value);
     void toggle_active_point_x_lock(bool value);
     void toggle_active_point_y_lock(bool value);
+    void change_active_point_x_value(double value);
+    void change_active_point_y_value(double value);
 
 signals:
     void active_point_changed(int value, const PlotPoint &);

@@ -103,6 +103,17 @@ void ControlLineWidget::toggle_active_point_y_lock(bool value)
     control_points.points()[render_area.get_active_point()]->set_y_lock(value);
 }
 
+void ControlLineWidget::change_active_point_x_value(double value)
+{
+    control_points.points()[render_area.get_active_point()]->setX(value);
+    update();
+}
+
+void ControlLineWidget::change_active_point_y_value(double value)
+{
+    control_points.points()[render_area.get_active_point()]->setY(value);
+    update();
+}
 
 QPointF &ControlLineWidget::get_active_point()
 {
