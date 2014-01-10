@@ -362,6 +362,11 @@ void GraphicRenderer::draw_horizontal_log_grid(QPainter &painter, int options)
 
 void GraphicRenderer::paint(QPainter &painter)
 {
+
+    painter.setClipRect(visual_data.x_margin(),
+                        visual_data.y_margin(),
+                        visual_data.width(),
+                        visual_data.height());
     QPainterPath path;
     QPen pen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     QVector<PlotPoint *> control_point = plot_points->points();
