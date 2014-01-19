@@ -68,6 +68,7 @@ private:
 
     GraphicRenderer render_area;
     QPointF &get_active_point();
+    void insert_new_point(const QPoint mouse_position);
 
 };
 

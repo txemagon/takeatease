@@ -6,6 +6,7 @@
 
 #define RENDER_XMARGIN 60
 #define RENDER_YMARGIN RENDER_XMARGIN
+#define SELECTION_ERROR 0.01
 
 ControlLineWidget::ControlLineWidget(QWidget *parent)
     : QWidget(parent)
@@ -157,15 +158,41 @@ QPoint ControlLineWidget::from_app_to_canvas(GraphicRenderer panel, const QPoint
     return corner;
 }
 
+void ControlLineWidget::insert_new_point(const QPoint mouse_position)
+{
+    int number_of_points = control_points.points().count();
+    int knob_radius = render_area.get_knob_radius();
+
+    for (int i=1; i<number_of_points; i++){
+        QPointF middle_distance = mouse_position -
+                render_area.to_dev(*control_points.points().at(i - 1));
+        QPointF total_distance = render_area.to_dev(*control_points.points().at(i)) -
+                render_area.to_dev(*control_points.points().at(i - 1));
+        QPointF unit_distance = middle_distance / middle_distance.manhattanLength() -
+                total_distance / total_distance.manhattanLength() ;
+
+
+        if ( render_area.decide_dragging( mouse_position ) < 0 &&
+                QRectF(-SELECTION_ERROR, -SELECTION_ERROR,
+                    2 * SELECTION_ERROR,  2 * SELECTION_ERROR).contains(unit_distance))
+            control_points.points().insert(i,
+                new PlotPoint(render_area.to_logic(mouse_position)));
+
+    }
+}
+
 void ControlLineWidget::mousePressEvent(QMouseEvent *event)
 {
 
     mouse_pressed_position = event->pos();
     QPoint mouse_position = from_app_to_canvas(render_area, mouse_pressed_position);
 
+    insert_new_point(mouse_position);
+
     if (render_area.hovers(event->pos())) {
         int active_point = render_area.decide_dragging( mouse_position );
-        emit active_point_changed( active_point,
+        if (active_point >= 0 && active_point < control_points.points().count())
+            emit active_point_changed( active_point,
                                   *control_points.points().at(active_point));
     }
 
@@ -176,7 +203,7 @@ void ControlLineWidget::mouseMoveEvent(QMouseEvent *event)
     if ( (mouse_pressed_position - event->pos()).manhattanLength() > 25)
         dragging = true;
 
-    if (dragging){
+    if (dragging && render_area.get_active_point() >= 0){
         QPoint mouse_pos = from_app_to_canvas(render_area, event->pos());
         if (control_points.points().count() > 2 ||
             render_area.get_visualization_data().sensitive_area().contains(mouse_pos)){

@@ -452,6 +452,8 @@ void GraphicRenderer::stop_dragging(bool out)
 VisualizationData GraphicRenderer::get_visualization_data() { return visual_data; }
 
 int GraphicRenderer::get_active_point() { return active_point; }
+
+qreal GraphicRenderer::get_knob_radius(){ return knob_radius; }
 void GraphicRenderer::change_logarithmic(bool value) { logarithmic = value; }
 
 

@@ -33,17 +33,20 @@ public:
     void stop_dragging(bool out);
     VisualizationData get_visualization_data();
     int get_active_point();
+    qreal get_knob_radius();
     void change_logarithmic(bool value);
 
     QPointF to_active(QPointF coords);
-protected:
-    int linear_limit(qreal range);
+
     QPointF to_dev(QPointF logical);
     QPointF to_dev(QPointF *logical);
     QPointF to_dev(qreal x, qreal y);
     QPointF to_logic(QPointF device);
     QPointF to_logic(QPointF *device);
     QPointF to_logic(qreal x, qreal y);
+
+protected:
+    int linear_limit(qreal range);
 
     void draw_horizontal_mid_div(QPainter &painter);
     void draw_horizontal_log_grid(QPainter &painter, int options = ALL_DIV);
