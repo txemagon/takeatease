@@ -22,6 +22,6 @@ void PlotData::set_coords(int point, QPointF coords)
 
 void PlotData::remove(int point_number)
 {
-    // todo: ensure that at least 2 points remain
-    this->point.remove(point_number);
+    if (point.count() > 2)
+        point.remove(point_number);
 }

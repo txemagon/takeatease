@@ -178,10 +178,13 @@ void ControlLineWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (dragging){
         QPoint mouse_pos = from_app_to_canvas(render_area, event->pos());
-        render_area.update_dragging(mouse_pos);
-        emit active_point_coords_changed(
-                    *control_points.points().at( render_area.get_active_point())
-                    );
+        if (control_points.points().count() > 2 ||
+            render_area.get_visualization_data().sensitive_area().contains(mouse_pos)){
+            render_area.update_dragging(mouse_pos);
+            emit active_point_coords_changed(
+                        *control_points.points().at( render_area.get_active_point())
+                        );
+        }
     }
 
     update();
@@ -192,7 +195,8 @@ void ControlLineWidget::mouseReleaseEvent(QMouseEvent *event) {
     bool out = false;
     QPoint mouse_pos = from_app_to_canvas(render_area, event->pos());
     dragging = false;
-    if (!render_area.get_visualization_data().sensitive_area().contains(mouse_pos)){
+    if ( control_points.points().count() > 2 &&
+         !render_area.get_visualization_data().sensitive_area().contains(mouse_pos)){
         out = true;
         control_points.remove(render_area.get_active_point());
         update();
