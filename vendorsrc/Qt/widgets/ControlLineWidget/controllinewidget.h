@@ -25,11 +25,12 @@ public:
 
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent * event);
     bool is_dragging(void);
     qreal initial_width() const;
     qreal initial_height() const;
     void set_initial_dimensions(QRect dimension);
+    const QVector<QString> &get_string_of_control_points();
 
 public slots:
     void broadcast_active_point_coords_changed(int point, const PlotPoint &value);

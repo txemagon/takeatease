@@ -36,6 +36,7 @@ public:
     QPointF get_margin();
     QRectF active_area();
 
+    QRectF sensitive_area();
 private:
     QRectF area;
     QPointF margin;

@@ -9,7 +9,14 @@ ControlBoard::ControlBoard(QWidget *parent) :
 {
     ui->setupUi(this);
     controlLineWidget = new ControlLineWidget(ui->frame_LineWidget);
-
+/*
+    ui->listView_Points->setModel(
+                new QStringListModel(
+                    QList<QString>::fromVector(
+                        controlLineWidget->get_string_of_control_points()
+                        ))
+                );
+*/
     /* incoming signals */
     connect(controlLineWidget, SIGNAL(active_point_changed(int, const PlotPoint &)),
             this, SLOT(change_in_active_point(int, const PlotPoint &)));

@@ -16,6 +16,7 @@ public:
     QVector<PlotPoint *> &points();
     void set_coords(int point, QPointF coords);
 
+    void remove(int point_number);
 signals:
     void coordinates_changed(int point_index, const PlotPoint &point);
 

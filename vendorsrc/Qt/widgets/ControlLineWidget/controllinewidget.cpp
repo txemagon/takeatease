@@ -80,6 +80,19 @@ void ControlLineWidget::set_initial_dimensions(QRect dimension)
 
 }
 
+const QVector<QString> &ControlLineWidget::get_string_of_control_points()
+{
+    QVector<QString> points;
+    for (int i=0; i<control_points.points().size(); i++){
+        QPointF point = *control_points.points().at(i);
+        QString representation = "Point " + QString::number(i) + ": (";
+        representation += QString::number(point.x()) + ", ";
+        representation += QString::number(point.y()) + ")";
+        points.append( representation) ;
+    }
+    return points;
+}
+
 void ControlLineWidget::broadcast_active_point_coords_changed(int point,
                                                               const PlotPoint &value)
 {
@@ -175,7 +188,18 @@ void ControlLineWidget::mouseMoveEvent(QMouseEvent *event)
 
 }
 
-void ControlLineWidget::mouseReleaseEvent(QMouseEvent *) { dragging = false; }
+void ControlLineWidget::mouseReleaseEvent(QMouseEvent *event) {
+    bool out = false;
+    QPoint mouse_pos = from_app_to_canvas(render_area, event->pos());
+    dragging = false;
+    if (!render_area.get_visualization_data().sensitive_area().contains(mouse_pos)){
+        out = true;
+        control_points.remove(render_area.get_active_point());
+        update();
+    }
+    render_area.stop_dragging(out);
+}
+
 bool ControlLineWidget::is_dragging() { return dragging; }
 qreal ControlLineWidget::initial_width() const { return total_render_width; }
 qreal ControlLineWidget::initial_height() const { return total_render_height; }

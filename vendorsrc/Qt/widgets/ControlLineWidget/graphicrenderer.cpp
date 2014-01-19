@@ -168,6 +168,10 @@ QPointF GraphicRenderer::to_logic(QPointF *device)
     return to_logic(*device);
 }
 
+QPointF GraphicRenderer::to_active(QPointF coords){
+    return coords - visual_data.get_margin();
+}
+
 QPointF GraphicRenderer::to_logic(qreal x, qreal y) { return to_logic(QPointF(x,y)); }
 
 
@@ -437,10 +441,12 @@ void GraphicRenderer::update_dragging(const QPoint &mouse_now)
 
 }
 
-void GraphicRenderer::stop_dragging()
+void GraphicRenderer::stop_dragging(bool out)
 {
     dragging     = false;
-    active_point = -1;
+    if (out) {
+       active_point = -1;
+    }
 }
 
 VisualizationData GraphicRenderer::get_visualization_data() { return visual_data; }

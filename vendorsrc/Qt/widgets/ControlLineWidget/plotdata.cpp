@@ -19,3 +19,9 @@ void PlotData::set_coords(int point, QPointF coords)
     this->point[point]->set_coords(coords);
     emit(coordinates_changed(point, *(this->point[point])) );
 }
+
+void PlotData::remove(int point_number)
+{
+    // todo: ensure that at least 2 points remain
+    this->point.remove(point_number);
+}

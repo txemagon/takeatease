@@ -51,3 +51,8 @@ QRectF VisualizationData::active_area()
     return a_area;
 }
 
+QRectF VisualizationData::sensitive_area()
+{
+    QRectF a_area = area.adjusted(0, 0, - 2 * margin.x(), - 2 * margin.y());
+    return a_area;
+}
